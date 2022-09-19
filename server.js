@@ -18,15 +18,15 @@ var port = process.env.PORT || 9091;
 
 app.use(compression({
     level: 6,
-    threshold: 10*1000,
+    threshold: 10 * 1000,
     filter: (req, res) => {
-    if(req.headers['x-no-compression']) {
-       return false
-    }
-    return compression.filter(req, res);
+        if (req.headers['x-no-compression']) {
+            return false
+        }
+        return compression.filter(req, res);
     },
-  }))
-  
+}))
+
 // app.set('superSecret', config.secret); // secret variable
 app.use(session({
     'secret': "secretkey",
@@ -45,11 +45,11 @@ app.use(bodyParser.json({ limit: '5mb' }));
 
 app.use(express.static(path.join(__dirname, '../dist/jhakasi')));
 
-var adminrouter = require('./routes/adminRoutes');
+var adminrouter = require('./routes/client/v1/index');
 adminrouter(app);
 
 app.use("/uploads/", express.static(__dirname + '/uploads/'));
-app.use('/', function(req, res) {
+app.use('/', function (req, res) {
     res.sendFile(path.join(__dirname, '../dist/jhakasi', 'index.html'))
 });
 
@@ -58,10 +58,10 @@ const server = app.listen(port, () => console.log(`Server running on port ${port
 const exitHandler = serverException(server, {
     coredump: false,
     timeout: 500
-  })
-  
-  process.on('uncaughtException', exitHandler(1, 'UNCAUGHT EXCEPTION! 💥 Shutting down...'))
-  process.on('unhandledRejection', exitHandler(1, 'UNHANDLED REJECTION! 💥 Shutting down...'))
-  process.on('SIGINT', exitHandler(0, '👋 SIGINT RECEIVED. Shutting down gracefully'))
-  process.on('SIGTERM', exitHandler(0, '👋 SIGTERM RECEIVED. Shutting down gracefully'))
+})
+
+process.on('uncaughtException', exitHandler(1, 'UNCAUGHT EXCEPTION! 💥 Shutting down...'))
+process.on('unhandledRejection', exitHandler(1, 'UNHANDLED REJECTION! 💥 Shutting down...'))
+process.on('SIGINT', exitHandler(0, '👋 SIGINT RECEIVED. Shutting down gracefully'))
+process.on('SIGTERM', exitHandler(0, '👋 SIGTERM RECEIVED. Shutting down gracefully'))
 

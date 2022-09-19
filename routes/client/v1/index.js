@@ -1,9 +1,9 @@
 "use strict";
 var jwt = require("jwt-simple");
 var bodyParser = require("body-parser");
-var generalConfig = require("../config/generalConfig");
-var passport = require("../config/passport.js")();
-const globalErrorHandler = require("../controllers/errorController");
+var generalConfig = require("../../../config/generalConfig");
+var passport = require("../../../config/passport.js")();
+const globalErrorHandler = require("../../../controllers/errorController");
 
 module.exports = function (app) {
   app.use(passport.initialize());
